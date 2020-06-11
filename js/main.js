@@ -13,40 +13,49 @@ var COMMENTS_NAMES = ['Артем', 'Андрей', 'Алина', 'Игорь', 
 var COMMENTS_MESSAGES = ['Всё отлично!', 'В целом всё неплохо. Но не всё.', 'Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально.', 'Моя бабушка случайно чихнула с фотоаппаратом в руках и у неё получилась фотография лучше.', 'Я поскользнулся на банановой кожуре и уронил фотоаппарат на кота и у меня получилась фотография лучше.', 'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'];
 var PHOTOS_QUANTITY = 25;
 var MAX_COMMENTS = 99;
+var MINIMUM_COMMENTS_QUANTITY = 0;
+
+var MINIMUM_AVATAR_INDEX = 1;
+var MAXIMUM_AVATAR_INDEX = 6;
+
+var MINIMUM_LIKES_INDEX = 15;
+var MAXIMUM_LIKES_INDEX = 200;
+
+var getRandomElement = function (array) {
+  var randomIndex = Math.floor(Math.random() * array.length);
+
+  return array[randomIndex];
+};
 
 var generateComment = function () {
-
-  var randomCommentNameIndex = Math.floor(Math.random() * COMMENTS_NAMES.length);
-  var randomCommentMessageIndex = Math.floor(Math.random() * COMMENTS_MESSAGES.length);
-
   var comment = {
-    avatar: 'img/avatar-' + getRandomNumberInRange(1, 6) + '.svg',
-    message: COMMENTS_MESSAGES[randomCommentMessageIndex],
-    name: COMMENTS_NAMES[randomCommentNameIndex]
+    avatar: 'img/avatar-' + getRandomNumberInRange(MINIMUM_AVATAR_INDEX, MAXIMUM_AVATAR_INDEX) + '.svg',
+    message: getRandomElement(COMMENTS_MESSAGES),
+    name: getRandomElement(COMMENTS_NAMES)
   };
 
   return comment;
 };
 
-var generateCommentsList = function () {
-
+var generateComments = function () {
+  var randomCommentQuantity = getRandomNumberInRange(MINIMUM_COMMENTS_QUANTITY, MAX_COMMENTS);
   var comments = [];
 
-  for (var i = 0; i < MAX_COMMENTS; i++) {
+  for (var i = MINIMUM_COMMENTS_QUANTITY; i < randomCommentQuantity; i++) {
     comments.push(generateComment());
   }
-  var randomCommentQuantityIndex = Math.floor(Math.random() * comments.length);
 
-  return randomCommentQuantityIndex;
+  return comments;
 };
+
 
 var createPhoto = function (index) {
 
   var photo = {
     url: 'photos/' + index + '.jpg',
     description: 'Описание',
-    likes: getRandomNumberInRange(15, 200),
-    comments: generateCommentsList()
+    likes: getRandomNumberInRange(MINIMUM_LIKES_INDEX, MAXIMUM_LIKES_INDEX),
+    comments: generateComments()
   };
 
   return photo;
@@ -70,7 +79,7 @@ var renderPhoto = function (photo) {
   photoElement.querySelector('.picture__likes').textContent = photo.likes;
   photoElement.querySelector('img').src = photo.url;
   photoElement.querySelector('img').alt = photo.description;
-  photoElement.querySelector('.picture__comments').textContent = photo.comments;
+  photoElement.querySelector('.picture__comments').textContent = photo.comments.length;
 
   fragment.appendChild(photoElement);
 };
