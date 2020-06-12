@@ -3,10 +3,6 @@
 var similarListElement = document.querySelector('.pictures');
 var similarPhotoTemplate = document.querySelector('#picture').content.querySelector('.picture');
 
-var getRandomNumberInRange = function (min, max) {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-};
-
 var fragment = document.createDocumentFragment();
 
 var COMMENTS_NAMES = ['Артем', 'Андрей', 'Алина', 'Игорь', 'Кекс', 'Гоша', 'Петя'];
@@ -20,6 +16,11 @@ var MAXIMUM_AVATAR_INDEX = 6;
 
 var MINIMUM_LIKES_INDEX = 15;
 var MAXIMUM_LIKES_INDEX = 200;
+
+var getRandomNumberInRange = function (min, max) {
+
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+};
 
 var getRandomElement = function (array) {
   var randomIndex = Math.floor(Math.random() * array.length);
@@ -48,9 +49,7 @@ var generateComments = function () {
   return comments;
 };
 
-
 var createPhoto = function (index) {
-
   var photo = {
     url: 'photos/' + index + '.jpg',
     description: 'Описание',
