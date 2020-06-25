@@ -97,6 +97,46 @@ var uploadFile = document.querySelector('#upload-file');
 var hashtagInput = document.querySelector('.text__hashtags');
 var hashtagValidate = /^#[а-яА-Яa-zA-Z0-9]*$/;
 
+var lineSlider = document.querySelector('.effect-level__line');
+var pinElement = document.querySelector('.effect-level__pin');
+var lineFilled = document.querySelector('.effect-level__depth');
+
+
+pinElement.addEventListener('mousedown', function (evt) {
+  evt.preventDefault();
+});
+
+pinElement.addEventListener('mousedown', function (downEvent) {
+  var startX = downEvent.clientX;
+
+  console.log(startX, 'startX');
+
+  var mouseMove = function (moveEvent) {
+    var movedX = moveEvent.clientX;
+
+    console.log(movedX, 'movedX');
+
+    var shiftX = startX - movedX;
+
+    startX = movedX;
+
+    pinElement.style.left = (pinElement.offsetLeft - shiftX) + 'px';
+    lineFilled.style.width = (pinElement.offsetLeft - shiftX) + 'px';
+
+    if (pinElement.style.left === 0 + 'px' || pinElement.style.left === lineSlider.offsetWidth + 'px') {
+      document.removeEventListener('mousemove', mouseMove);
+    }
+  };
+
+  var mouseUp = function () {
+    document.removeEventListener('mousemove', mouseMove);
+    document.removeEventListener('mouseup', mouseUp);
+  };
+
+  document.addEventListener('mousemove', mouseMove);
+  document.addEventListener('mouseup', mouseUp);
+});
+
 var onPopupEscPress = function (evt) {
   if (evt.key === 'Escape') {
     evt.preventDefault();
