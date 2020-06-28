@@ -88,3 +88,109 @@ for (var i = 0; i < newPhotos.length; i++) {
 }
 
 similarListElement.appendChild(fragment);
+
+var setupOpen = document.querySelector('.img-upload__label');
+var setup = document.querySelector('.img-upload__overlay');
+var setupClose = setup.querySelector('.img-upload__cancel');
+var uploadFile = document.querySelector('#upload-file');
+
+var hashtagInput = document.querySelector('.text__hashtags');
+var hashtagValidate = /^#[а-яА-Яa-zA-Z0-9]*$/;
+
+var lineSlider = document.querySelector('.effect-level__line');
+var pinElement = document.querySelector('.effect-level__pin');
+var lineFilled = document.querySelector('.effect-level__depth');
+
+pinElement.addEventListener('mousedown', function (evt) {
+  evt.preventDefault();
+});
+
+pinElement.addEventListener('mousedown', function (downEvent) {
+  var startX = downEvent.clientX;
+
+  var mouseMove = function (moveEvent) {
+    var movedX = moveEvent.clientX;
+    var shiftX = startX - movedX;
+
+    startX = movedX;
+
+    pinElement.style.left = (pinElement.offsetLeft - shiftX) + 'px';
+    lineFilled.style.width = (pinElement.offsetLeft - shiftX) + 'px';
+
+    if (pinElement.offsetLeft <= 0) {
+      pinElement.style.left = 0 + 'px';
+    } else if (pinElement.offsetLeft >= lineSlider.offsetWidth) {
+      pinElement.style.left = lineSlider.offsetWidth + 'px';
+    }
+  };
+
+  var mouseUp = function () {
+    document.removeEventListener('mousemove', mouseMove);
+    document.removeEventListener('mouseup', mouseUp);
+  };
+
+  document.addEventListener('mousemove', mouseMove);
+  document.addEventListener('mouseup', mouseUp);
+});
+
+var onPopupEscPress = function (evt) {
+  if (evt.key === 'Escape') {
+    evt.preventDefault();
+    closePopup();
+  }
+};
+
+uploadFile.addEventListener('change', function () {
+  setup.classList.remove('hidden');
+});
+
+var openPopup = function () {
+  document.addEventListener('keydown', onPopupEscPress);
+};
+
+var closePopup = function () {
+  setup.classList.add('hidden');
+
+  document.removeEventListener('keydown', onPopupEscPress);
+};
+
+setupOpen.addEventListener('click', function () {
+  openPopup();
+});
+
+setupOpen.addEventListener('keydown', function (evt) {
+  if (evt.key === 'Enter') {
+    openPopup();
+  }
+});
+
+setupClose.addEventListener('click', function () {
+  closePopup();
+});
+
+setupClose.addEventListener('keydown', function (evt) {
+  if (evt.key === 'Enter') {
+    closePopup();
+  }
+});
+
+hashtagInput.addEventListener('invalid', function () {
+  if (hashtagInput.validity.valueMissing) {
+    hashtagInput.setCustomValidity('Обязательное поле');
+  } else {
+    hashtagInput.setCustomValidity('');
+  }
+});
+
+hashtagValidate.test('hashtagValue');
+
+
+hashtagInput.addEventListener('input', function () {
+  var hashtagValue = hashtagInput.value;
+
+  if (!hashtagValidate.test(hashtagValue)) {
+    hashtagInput.setCustomValidity('Введите в формате #хештег');
+  } else {
+    hashtagInput.setCustomValidity('');
+  }
+});
