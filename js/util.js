@@ -15,21 +15,19 @@
   var ENTER_KEY = 'Enter';
   var ESC_KEY = 'Escape';
 
+  var isEscape = function (evt) {
+    return evt.key === ESC_KEY;
+  };
+
+  var isEnter = function (evt) {
+    return evt.key === ENTER_KEY;
+  };
+
   window.main = {
     getRandomNumberInRange: getRandomNumberInRange,
     getRandomElement: getRandomElement,
-    isEscape: function (evt, action) {
-      if (evt.key === ESC_KEY) {
-        evt.preventDefault();
-        action();
-      }
-    },
-    isEnter: function (evt, action) {
-      if (evt.key === ENTER_KEY) {
-        evt.preventDefault();
-        action();
-      }
-    }
+    isEscape: isEscape,
+    isEnter: isEnter
   };
 })();
 

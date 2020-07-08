@@ -7,7 +7,11 @@
   var uploadFile = document.querySelector('#upload-file');
 
   var onPopupEscPress = function (evt) {
-    window.main.isEscape(evt, closePopup);
+    var isEscapeKeyPressed = window.main.isEscape(evt);
+
+    if (isEscapeKeyPressed) {
+      closePopup();
+    }
   };
 
   uploadFile.addEventListener('change', function () {
@@ -29,7 +33,11 @@
   });
 
   setupOpen.addEventListener('keydown', function (evt) {
-    window.main.isEnter(evt, openPopup);
+    var isEnterKeyPressed = window.main.isEscape(evt);
+
+    if (isEnterKeyPressed) {
+      openPopup();
+    }
   });
 
   setupClose.addEventListener('click', function () {
@@ -37,7 +45,11 @@
   });
 
   setupClose.addEventListener('keydown', function (evt) {
-    window.main.isEnter(evt, closePopup);
+    var isEnterKeyPressed = window.main.isEscape(evt);
+
+    if (isEnterKeyPressed) {
+      closePopup();
+    }
   });
 })();
 

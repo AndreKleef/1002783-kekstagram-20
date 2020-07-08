@@ -12,8 +12,6 @@
     }
   });
 
-  hashtagValidate.test('hashtagValue');
-
   hashtagInput.addEventListener('input', function () {
     var hashtagValue = hashtagInput.value;
 
