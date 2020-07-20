@@ -11,11 +11,15 @@
 
   var gallery = [];
 
+  var useRenderPhoto = function () {
+    window.data.renderPhoto(gallery);
+  };
+
   sortDefault.addEventListener('click', function () {
     sortDefault.classList.add('img-filters__button--active');
     sortRandom.classList.remove('img-filters__button--active');
     sortDiscussed.classList.remove('img-filters__button--active');
-    window.debounce.useDebounce(window.data.renderPhoto(gallery));
+    window.debounce.useDebounce(useRenderPhoto);
   });
 
   sortRandom.addEventListener('click', function () {
