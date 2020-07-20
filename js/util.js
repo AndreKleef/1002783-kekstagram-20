@@ -23,7 +23,7 @@
     return evt.key === ENTER_KEY;
   };
 
-  window.main = {
+  window.util = {
     getRandomNumberInRange: getRandomNumberInRange,
     getRandomElement: getRandomElement,
     isEscape: isEscape,
