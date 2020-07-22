@@ -7,7 +7,7 @@
   var uploadFile = document.querySelector('#upload-file');
 
   var onPopupEscPress = function (evt) {
-    var isEscapeKeyPressed = window.main.isEscape(evt);
+    var isEscapeKeyPressed = window.util.isEscape(evt);
 
     if (isEscapeKeyPressed) {
       closePopup();
@@ -33,7 +33,7 @@
   });
 
   setupOpen.addEventListener('keydown', function (evt) {
-    var isEnterKeyPressed = window.main.isEscape(evt);
+    var isEnterKeyPressed = window.util.isEscape(evt);
 
     if (isEnterKeyPressed) {
       openPopup();
@@ -45,7 +45,7 @@
   });
 
   setupClose.addEventListener('keydown', function (evt) {
-    var isEnterKeyPressed = window.main.isEscape(evt);
+    var isEnterKeyPressed = window.util.isEscape(evt);
 
     if (isEnterKeyPressed) {
       closePopup();

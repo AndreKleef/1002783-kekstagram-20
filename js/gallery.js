@@ -2,15 +2,66 @@
 
 (function () {
 
-  var PHOTOS_QUANTITY = 25;
+  var filtersButton = document.querySelector('.img-filters');
+  filtersButton.classList.remove('img-filters--inactive');
 
-  var successHandler = function (photos) {
-    var fragment = document.createDocumentFragment();
+  var sortDefault = document.querySelector('#filter-default');
+  var sortRandom = document.querySelector('#filter-random');
+  var sortDiscussed = document.querySelector('#filter-discussed');
 
-    for (var i = 0; i < PHOTOS_QUANTITY; i++) {
-      fragment.appendChild(window.data.collectPhoto(photos[i]));
+  var gallery = [];
+  var currentFilter = 'default';
+
+  var sortPhotos = function () {
+    var sortedPhotos = [];
+
+    if (currentFilter === 'random') {
+      sortedPhotos = gallery.slice().sort(function () {
+        return 0.5 - Math.random();
+      });
+      sortedPhotos.length = 10;
+    } else if (currentFilter === 'discussed') {
+      sortedPhotos = gallery.slice().sort(function (a, b) {
+        return b.comments.length - a.comments.length;
+      });
+    } else if (currentFilter === 'default') {
+      sortedPhotos = gallery;
     }
-    window.data.similarListElement.appendChild(fragment);
+    window.data.renderPhotos(sortedPhotos);
+  };
+
+  var debounceSortPhotos = window.debounce.useDebounce(sortPhotos);
+
+  sortDefault.addEventListener('click', function () {
+    sortDefault.classList.add('img-filters__button--active');
+    sortRandom.classList.remove('img-filters__button--active');
+    sortDiscussed.classList.remove('img-filters__button--active');
+
+    currentFilter = 'default';
+    debounceSortPhotos();
+  });
+
+  sortRandom.addEventListener('click', function () {
+    sortDefault.classList.remove('img-filters__button--active');
+    sortRandom.classList.add('img-filters__button--active');
+    sortDiscussed.classList.remove('img-filters__button--active');
+
+    currentFilter = 'random';
+    debounceSortPhotos();
+  });
+
+  sortDiscussed.addEventListener('click', function () {
+    sortDefault.classList.remove('img-filters__button--active');
+    sortRandom.classList.remove('img-filters__button--active');
+    sortDiscussed.classList.add('img-filters__button--active');
+
+    currentFilter = 'discussed';
+    debounceSortPhotos();
+  });
+
+  var successHandler = function (data) {
+    gallery = data;
+    window.data.renderPhotos(gallery);
   };
 
   var errorHandler = function (errorMessage) {
@@ -28,5 +79,4 @@
 
   window.backend.load(successHandler, errorHandler);
 })();
-
 

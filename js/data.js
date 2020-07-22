@@ -1,6 +1,7 @@
 'use strict';
 
 (function () {
+  var PHOTOS_QUANTITY = 25;
 
   var similarListElement = document.querySelector('.pictures');
   var similarPhotoTemplate = document.querySelector('#picture').content.querySelector('.picture');
@@ -16,8 +17,21 @@
     return photoElement;
   };
 
+  var renderPhotos = function (data) {
+    var elements = similarListElement.getElementsByClassName('picture');
+
+    while (elements[0]) {
+      elements[0].parentNode.removeChild(elements[0]);
+    }
+
+    for (var i = 0; i < PHOTOS_QUANTITY; i++) {
+      similarListElement.appendChild(collectPhoto(data[i]));
+    }
+  };
+
   window.data = {
     collectPhoto: collectPhoto,
-    similarListElement: similarListElement
+    similarListElement: similarListElement,
+    renderPhotos: renderPhotos
   };
 })();
